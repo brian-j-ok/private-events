@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_action :authenticate_user!, except: [ :index, :show ]
+
   def index
     @events = Event.all
   end
@@ -12,14 +14,19 @@ class EventsController < ApplicationController
   end
 
   def create
-    @event = current_user.events.build(event_params)
+    @event = current_user.created_events.build(event_params)
 
     if @event.save
-      flash[:success] = "Event '#{event.name}' created!"
+      flash[:success] = "Event '#{@event.name}' created!"
       redirect_to @event
     else
       flash[:alert] = "Unable to create event!!!"
       render 'new'
     end
+  end
+
+  private
+  def event_params
+    params.require(:event).permit(:name, :location, :date)
   end
 end

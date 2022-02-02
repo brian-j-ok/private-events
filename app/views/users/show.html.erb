@@ -1,8 +1,8 @@
-<h1>Events</h1>
+<h1><%= @user.name %></h1>
 
-<% if !@events.nil? %>
+<% if !@user.created_events.nil? %>
     <ul>
-        <% @events.each do | event | %>
+        <% @user.created_events.each do | event | %>
             <li>
                 <%= "#{event.name} is taking place on #{event.date} at #{event.location}" %>
             </li>
